@@ -1,69 +1,100 @@
-import Image from "next/image";
+"use client";
+
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
+
+type Workout = { exercise: string; sets: number; reps: number; weight: number };
+
+const weeklyVolume = [
+  { day: "Mon", volume: 3200 },
+  { day: "Tue", volume: 0 },
+  { day: "Wed", volume: 4100 },
+  { day: "Thu", volume: 2800 },
+  { day: "Fri", volume: 0 },
+  { day: "Sat", volume: 5000 },
+  { day: "Sun", volume: 0 },
+];
 
 export default function Home() {
+  const [workouts, setWorkouts] = useState<Workout[]>([]);
+  const [exercise, setExercise] = useState("");
+  const [sets, setSets] = useState("");
+  const [reps, setReps] = useState("");
+  const [weight, setWeight] = useState("");
+
+  function addWorkout(e: React.FormEvent) {
+    e.preventDefault();
+    if (!exercise.trim()) return;
+    setWorkouts([
+      { exercise, sets: Number(sets), reps: Number(reps), weight: Number(weight) },
+      ...workouts,
+    ]);
+    setExercise("");
+    setSets("");
+    setReps("");
+    setWeight("");
+  }
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+    <main className="mx-auto max-w-3xl space-y-6 p-6">
+      <h1 className="text-3xl font-bold">FitFlow</h1>
+
+      <div className="grid grid-cols-3 gap-4">
+        {[
+          ["Workouts this week", "4"],
+          ["Avg sleep", "7.1 h"],
+          ["Avg water", "2.4 L"],
+        ].map(([label, value]) => (
+          <Card key={label}>
+            <CardHeader>
+              <CardTitle className="text-sm font-medium text-muted-foreground">{label}</CardTitle>
+            </CardHeader>
+            <CardContent className="text-2xl font-semibold">{value}</CardContent>
+          </Card>
+        ))}
+      </div>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Weekly volume</CardTitle>
+        </CardHeader>
+        <CardContent className="h-56">
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart data={weeklyVolume}>
+              <XAxis dataKey="day" />
+              <YAxis />
+              <Tooltip />
+              <Bar dataKey="volume" fill="currentColor" />
+            </BarChart>
+          </ResponsiveContainer>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Log workout</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <form onSubmit={addWorkout} className="grid grid-cols-2 gap-2 sm:grid-cols-5">
+            <Input placeholder="Exercise" value={exercise} onChange={(e) => setExercise(e.target.value)} className="col-span-2" />
+            <Input placeholder="Sets" type="number" value={sets} onChange={(e) => setSets(e.target.value)} />
+            <Input placeholder="Reps" type="number" value={reps} onChange={(e) => setReps(e.target.value)} />
+            <Input placeholder="kg" type="number" value={weight} onChange={(e) => setWeight(e.target.value)} />
+            <Button type="submit" className="col-span-2 sm:col-span-5">Add</Button>
+          </form>
+
+          <ul className="space-y-1">
+            {workouts.map((w, i) => (
+              <li key={i} className="text-sm">
+                {w.exercise}: {w.sets} x {w.reps} @ {w.weight} kg
+              </li>
+            ))}
+          </ul>
+        </CardContent>
+      </Card>
+    </main>
   );
 }
