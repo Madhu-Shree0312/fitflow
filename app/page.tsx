@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
+import LogoutButton from "./logout-button";
 
 type Workout = { exercise: string; sets: number; reps: number; weight: number };
 
@@ -40,7 +41,10 @@ export default function Home() {
 
   return (
     <main className="mx-auto max-w-3xl space-y-6 p-6">
-      <h1 className="text-3xl font-bold">FitFlow</h1>
+      <div className="flex items-center justify-between">
+        <h1 className="text-3xl font-bold">FitFlow</h1>
+        <LogoutButton />
+      </div>
 
       <div className="grid grid-cols-3 gap-4">
         {[
