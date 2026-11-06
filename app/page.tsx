@@ -7,6 +7,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 import { createClient } from "@/lib/supabase/client";
 import LogoutButton from "./logout-button";
+import HabitsCard from "./habits-card";
+import ProfileCard from "./profile-card";
+
 
 type Workout = {
   id: string;
@@ -139,7 +142,8 @@ export default function Home() {
         <h1 className="text-3xl font-bold">FitFlow</h1>
         <LogoutButton />
       </div>
-
+<ProfileCard />
+<HabitsCard />
       <div className="grid grid-cols-3 gap-4">
         {[
           ["Workout days (7d)", String(workoutsThisWeek)],
