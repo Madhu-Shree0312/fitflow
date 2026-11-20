@@ -129,8 +129,8 @@ export default function HabitsCard() {
         </div>
 
         <form onSubmit={save} className="grid grid-cols-2 gap-2 sm:grid-cols-4">
-          <Input placeholder="Water (ml)" type="number" min="0" value={water} onChange={(e) => setWater(e.target.value)} />
-          <Input placeholder="Sleep (hours)" type="number" min="0" max="24" step="0.5" value={sleep} onChange={(e) => setSleep(e.target.value)} />
+          <Input placeholder="Water in ml (e.g. 2000)" type="number" min="0" value={water} onChange={(e) => setWater(e.target.value)} />
+          <Input placeholder="Sleep in hours (e.g. 7)" type="number" min="0" max="24" step="0.5" value={sleep} onChange={(e) => setSleep(e.target.value)} />
           <select
             value={mood}
             onChange={(e) => setMood(e.target.value)}

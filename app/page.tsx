@@ -12,7 +12,6 @@ import ProfileCard from "./profile-card";
 import PlanCard from "./plan-card";
 import CoachCard from "./coach-card";
 
-
 type Workout = {
   id: string;
   date: string;
@@ -139,16 +138,18 @@ export default function Home() {
   const totalVolume = chartData.reduce((sum, d) => sum + d.volume, 0);
 
   return (
-    <main className="mx-auto max-w-3xl space-y-6 p-6">
+    <main className="mx-auto max-w-3xl space-y-6 p-4 sm:p-6">
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold">FitFlow</h1>
         <LogoutButton />
       </div>
-<ProfileCard />
-<HabitsCard />
-<PlanCard/>
-<CoachCard />
-      <div className="grid grid-cols-3 gap-4">
+
+      <ProfileCard />
+      <HabitsCard />
+      <PlanCard />
+      <CoachCard />
+
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
         {[
           ["Workout days (7d)", String(workoutsThisWeek)],
           ["Total volume (7d)", `${Math.round(totalVolume)} kg`],
