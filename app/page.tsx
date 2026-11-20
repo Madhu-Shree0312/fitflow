@@ -9,6 +9,8 @@ import { createClient } from "@/lib/supabase/client";
 import LogoutButton from "./logout-button";
 import HabitsCard from "./habits-card";
 import ProfileCard from "./profile-card";
+import PlanCard from "./plan-card";
+import CoachCard from "./coach-card";
 
 
 type Workout = {
@@ -144,6 +146,8 @@ export default function Home() {
       </div>
 <ProfileCard />
 <HabitsCard />
+<PlanCard/>
+<CoachCard />
       <div className="grid grid-cols-3 gap-4">
         {[
           ["Workout days (7d)", String(workoutsThisWeek)],
